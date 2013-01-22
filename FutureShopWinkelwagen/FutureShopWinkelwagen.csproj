@@ -46,7 +46,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C1Lib_net, Version=1.0.2179.22713, Culture=neutral" />
+    <Reference Include="LinqBridge.CF20, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Desktop\LinqBridge.CF20.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Desktop\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsCE.Forms" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json.Compact20, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Desktop\Newtonsoft.Json.Compact20.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -54,8 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Observer.cs" />
-    <Compile Include="RFIDReader.cs" />
+    <Compile Include="Controllers\API.cs" />
+    <Compile Include="DjangoModels\DjangoGroceryList.cs" />
+    <Compile Include="DjangoModels\DjangoProduct.cs" />
+    <Compile Include="Models\GroceryList.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Controllers\RFIDReader.cs" />
     <Compile Include="ShoppingCart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,10 +93,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="C1Lib_net.dll" />
+    <None Include="Resources\NotificationIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

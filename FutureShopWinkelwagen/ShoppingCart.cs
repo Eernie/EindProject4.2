@@ -9,14 +9,21 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
 using C1Lib;
+using Microsoft.WindowsCE.Forms;
+using FutureShopWinkelwagen.Models;
 
 namespace FutureShopWinkelwagen
 {
-    public partial class ShoppingCart : Form, Observer
+    public partial class ShoppingCart : Form
     {
+        public delegate void AddListItem(String tag, String body);
+        public AddListItem addTag;
+        public Dictionary<String, Object> tags = new Dictionary<string, Object>();
+
         public ShoppingCart()
         {
             InitializeComponent();
+            addTag = new AddListItem(addTagMethod);
             Thread readerThread = new Thread(startScanning);
             readerThread.Start();
         }
@@ -24,8 +31,7 @@ namespace FutureShopWinkelwagen
         public void startScanning()
         {
             RFIDReader reader = RFIDReader.getInstance();
-            reader.addObserver(this);
-            reader.startReading();
+            reader.startReading(this);
         }
 
 
@@ -33,17 +39,58 @@ namespace FutureShopWinkelwagen
         {
         }
 
-        public void addToList(String item)
+        public void updateList()
         {
-            ListViewItem i = new ListViewItem(item);
-
-            listView1.Items.Add(i);
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            decimal total = 0;
+            foreach(KeyValuePair<String, Object> tag in tags){
+                Product product = (Product)tag.Value;
+                listBox1.Items.Add(product.name);
+                listBox2.Items.Add("€" + product.price);
+                total += product.price;
+            }
+            label1.Text = "€" + total;
         }
 
-        public void update(String tag, String body)
+        public void addTagMethod(String tag, String body)
         {
-            this.label1.Text = tag;
-            this.label2.Text = body;
+            if (!tags.ContainsKey(tag))
+            {
+                Product product = API.getInstance().getProductWithId(Convert.ToInt32(body));
+                tags.Add(tag, product);
+                updateList();
+            }
+        }
+
+        private void menuItem1_Click(object sender, EventArgs e)
+        {
+            ImportNotification.InitialDuration = Int32.MaxValue;
+            ImportNotification.Text = @"<form>
+                  <b>Uw code:</b> <input type=""text"" name=""code"" size=""15"" /><br />
+                  <input type=""submit"" style=""float: right;"" />
+                </form>";
+            ImportNotification.Visible = true;
+        }
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void notification1_ResponseSubmitted(object sender, ResponseSubmittedEventArgs e)
+        {
+            ImportNotification.Visible = false;
+            GroceryList groceryList = API.getInstance().getGroceryListWithId(Convert.ToInt32(e.Response.Substring(6)));
+            tags.Clear();
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            int i = 0;
+            foreach(DjangoProduct djangoProduct in groceryList.products){
+                Product product = djangoProduct.fields;
+                tags.Add("" + i, product);
+                i++;
+            }
+            updateList();
         }
     }
 }
