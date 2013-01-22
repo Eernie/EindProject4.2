@@ -13,7 +13,7 @@ namespace FutureShopWinkelwagen
         [MTAThread]
         static void Main()
         {
-            Application.Run(new Main());
+            Application.Run(new ShoppingCart());
         }
     }
 }
