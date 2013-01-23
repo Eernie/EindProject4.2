@@ -30,65 +30,63 @@
         private void InitializeComponent()
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.ImportNotification = new Microsoft.WindowsCE.Forms.Notification();
+            this.import = new System.Windows.Forms.MenuItem();
+            this.clear = new System.Windows.Forms.MenuItem();
+            this.totaalPrijs = new System.Windows.Forms.Label();
+            this.totaalText = new System.Windows.Forms.Label();
+            this.productList = new System.Windows.Forms.ListBox();
+            this.priceList = new System.Windows.Forms.ListBox();
+            this.importNotification = new Microsoft.WindowsCE.Forms.Notification();
             this.SuspendLayout();
             // 
             // mainMenu1
             // 
-            this.mainMenu1.MenuItems.Add(this.menuItem1);
-            this.mainMenu1.MenuItems.Add(this.menuItem2);
+            this.mainMenu1.MenuItems.Add(this.import);
+            this.mainMenu1.MenuItems.Add(this.clear);
             // 
-            // menuItem1
+            // import
             // 
-            this.menuItem1.Text = "Import";
-            this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
+            this.import.Text = "Import";
+            this.import.Click += new System.EventHandler(this.import_Click);
             // 
-            // menuItem2
+            // clear
             // 
-            this.menuItem2.Text = "Clear";
-            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            this.clear.Text = "Clear";
+            this.clear.Click += new System.EventHandler(this.clear_Click);
             // 
-            // label1
+            // totaalPrijs
             // 
-            this.label1.Location = new System.Drawing.Point(186, 265);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 25);
-            this.label1.Text = "€0,00";
+            this.totaalPrijs.Location = new System.Drawing.Point(186, 265);
+            this.totaalPrijs.Name = "totaalPrijs";
+            this.totaalPrijs.Size = new System.Drawing.Size(48, 25);
+            this.totaalPrijs.Text = "€0,00";
             // 
-            // label2
+            // totaalText
             // 
-            this.label2.Location = new System.Drawing.Point(134, 265);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 20);
-            this.label2.Text = "Totaal:";
+            this.totaalText.Location = new System.Drawing.Point(134, 265);
+            this.totaalText.Name = "totaalText";
+            this.totaalText.Size = new System.Drawing.Size(46, 20);
+            this.totaalText.Text = "Totaal:";
             // 
-            // listBox1
+            // productList
             // 
-            this.listBox1.Enabled = false;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(189, 240);
-            this.listBox1.TabIndex = 8;
+            this.productList.Location = new System.Drawing.Point(0, 0);
+            this.productList.Name = "productList";
+            this.productList.Size = new System.Drawing.Size(180, 240);
+            this.productList.TabIndex = 8;
             // 
-            // listBox2
+            // priceList
             // 
-            this.listBox2.Enabled = false;
-            this.listBox2.Location = new System.Drawing.Point(186, 0);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(54, 240);
-            this.listBox2.TabIndex = 11;
+            this.priceList.Location = new System.Drawing.Point(180, 0);
+            this.priceList.Name = "priceList";
+            this.priceList.Size = new System.Drawing.Size(60, 240);
+            this.priceList.TabIndex = 11;
             // 
-            // ImportNotification
+            // importNotification
             // 
-            this.ImportNotification.Caption = "Importeer boodschappenlijst";
-            this.ImportNotification.Text = "";
-            this.ImportNotification.ResponseSubmitted += new Microsoft.WindowsCE.Forms.ResponseSubmittedEventHandler(this.notification1_ResponseSubmitted);
+            this.importNotification.Caption = "Importeer boodschappenlijst";
+            this.importNotification.Text = "";
+            this.importNotification.ResponseSubmitted += new Microsoft.WindowsCE.Forms.ResponseSubmittedEventHandler(this.importNotification_ResponseSubmitted);
             // 
             // ShoppingCart
             // 
@@ -96,10 +94,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 294);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.priceList);
+            this.Controls.Add(this.productList);
+            this.Controls.Add(this.totaalText);
+            this.Controls.Add(this.totaalPrijs);
             this.Location = new System.Drawing.Point(0, 0);
             this.Menu = this.mainMenu1;
             this.Name = "ShoppingCart";
@@ -111,13 +109,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.ListBox listBox2;
-        private Microsoft.WindowsCE.Forms.Notification ImportNotification;
+        private System.Windows.Forms.Label totaalPrijs;
+        private System.Windows.Forms.Label totaalText;
+        private System.Windows.Forms.ListBox productList;
+        private System.Windows.Forms.MenuItem import;
+        private System.Windows.Forms.MenuItem clear;
+        private System.Windows.Forms.ListBox priceList;
+        private Microsoft.WindowsCE.Forms.Notification importNotification;
 
     }
 }

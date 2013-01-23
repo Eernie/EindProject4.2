@@ -24,7 +24,7 @@ namespace FutureShopWinkelwagen
 
         public Product getProductWithId(int id)
         {
-            String url = String.Format(this.url + "{0}/{1}", "product", id);
+            String url = String.Format(this.url + "{0}/{1}{2}", "product", id, ".json");
             String response = callUrl(url);
             DjangoProduct[] dp = JsonConvert.DeserializeObject<DjangoProduct[]>(response);
             return dp[0].fields;
@@ -32,7 +32,7 @@ namespace FutureShopWinkelwagen
 
         public GroceryList getGroceryListWithId(int id)
         {
-            String url = String.Format(this.url + "{0}/{1}", "grocerylist", id);
+            String url = String.Format(this.url + "{0}/{1}{2}", "grocerylist", id, ".json");
             String response = callUrl(url);
             DjangoGroceryList[] dp = JsonConvert.DeserializeObject<DjangoGroceryList[]>(response);
             return dp[0].fields;
@@ -40,10 +40,13 @@ namespace FutureShopWinkelwagen
 
         public String callUrl(String url)
         {
-            WebRequest request = WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            return reader.ReadToEnd();
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+            WebResponse response = request.GetResponse();
+            using(var reader = new StreamReader(response.GetResponseStream()))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }
