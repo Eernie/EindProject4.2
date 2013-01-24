@@ -35,7 +35,6 @@ namespace FutureShopWinkelwagen
         {
             String url = String.Format(this.url + "{0}/{1}{2}", "grocerylist", id, ".json");
             String response = callUrl(url);
-            Debug.WriteLine(response);
             DjangoGroceryList[] dp = JsonConvert.DeserializeObject<DjangoGroceryList[]>(response);
             return dp;
         }
