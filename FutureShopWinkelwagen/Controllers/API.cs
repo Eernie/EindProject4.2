@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using FutureShopWinkelwagen.Models;
+using FutureShopWinkelwagen.DjangoModels;
 
 namespace FutureShopWinkelwagen
 {
@@ -30,12 +31,13 @@ namespace FutureShopWinkelwagen
             return dp[0].fields;
         }
 
-        public GroceryList getGroceryListWithId(int id)
+        public DjangoGroceryList[] getGroceryListWithId(int id)
         {
             String url = String.Format(this.url + "{0}/{1}{2}", "grocerylist", id, ".json");
             String response = callUrl(url);
+            Debug.WriteLine(response);
             DjangoGroceryList[] dp = JsonConvert.DeserializeObject<DjangoGroceryList[]>(response);
-            return dp[0].fields;
+            return dp;
         }
 
         public String callUrl(String url)

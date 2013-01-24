@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Controllers\API.cs" />
     <Compile Include="DjangoModels\DjangoGroceryList.cs" />
+    <Compile Include="DjangoModels\DjangoGroceryListProduct.cs" />
     <Compile Include="DjangoModels\DjangoProduct.cs" />
     <Compile Include="Models\GroceryList.cs" />
     <Compile Include="Models\Product.cs" />

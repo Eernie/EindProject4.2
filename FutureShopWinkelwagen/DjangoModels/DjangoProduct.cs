@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FutureShopWinkelwagen.Models
 {
-    class DjangoProduct
+    public class DjangoProduct
     {
         public int pk { get; set; }
         public String model { get; set; }

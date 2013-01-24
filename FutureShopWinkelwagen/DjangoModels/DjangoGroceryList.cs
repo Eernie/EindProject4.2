@@ -3,12 +3,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FutureShopWinkelwagen.Models
+namespace FutureShopWinkelwagen.DjangoModels
 {
     class DjangoGroceryList
     {
         public int pk { get; set; }
         public String model { get; set; }
-        public GroceryList fields { get; set; }
+        public DjangoGroceryListProduct fields { get; set; }
     }
 }

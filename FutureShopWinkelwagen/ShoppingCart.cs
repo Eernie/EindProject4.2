@@ -11,6 +11,7 @@ using System.Diagnostics;
 using C1Lib;
 using Microsoft.WindowsCE.Forms;
 using FutureShopWinkelwagen.Models;
+using FutureShopWinkelwagen.DjangoModels;
 
 namespace FutureShopWinkelwagen
 {
@@ -18,7 +19,9 @@ namespace FutureShopWinkelwagen
     {
         public delegate void AddListItem(String tag, String body);
         public AddListItem addTag;
-        public Dictionary<String, Object> tags = new Dictionary<string, Object>();
+        public Dictionary<String, DjangoGroceryListProduct> groceryListProducts = new Dictionary<String, DjangoGroceryListProduct>();
+        public Dictionary<String, Product> scannedProducts = new Dictionary<String, Product>();
+        public List<String> scannedTags = new List<String>();
 
         public ShoppingCart()
         {
@@ -26,11 +29,6 @@ namespace FutureShopWinkelwagen
             addTag = new AddListItem(addTagMethod);
             Thread readerThread = new Thread(startScanning);
             readerThread.Start();
-
-            for (int i = 0; i < 50; i++)
-            {
-                productList.Items.Add("item " + i);
-            }
         }
 
         public void startScanning()
@@ -41,24 +39,51 @@ namespace FutureShopWinkelwagen
 
         public void updateList()
         {
-            productList.Items.Clear();
-            priceList.Items.Clear();
+            productListView.Items.Clear();
             decimal total = 0;
-            foreach(KeyValuePair<String, Object> tag in tags){
-                Product product = (Product)tag.Value;
-                productList.Items.Add(product.name);
-                priceList.Items.Add("€" + product.price);
-                total += product.price;
+            foreach (KeyValuePair<String, DjangoGroceryListProduct> tag in groceryListProducts)
+            {
+                DjangoGroceryListProduct djangoProduct = tag.Value;
+                Product product = djangoProduct.product.fields;
+                int amountScanned = 0;
+                if (scannedProducts.ContainsKey(product.EAN))
+                {
+                    Product scannedProduct = scannedProducts[product.EAN];
+                    amountScanned = scannedProduct.amountScanned;
+                }
+                String[] values = { product.name, amountScanned + "/" + djangoProduct.amount, "€" + product.price * amountScanned };
+                ListViewItem item = new ListViewItem(values);
+                productListView.Items.Add(item);
+                total += product.price * amountScanned;
+            }
+            foreach (KeyValuePair<String, Product> tag in scannedProducts)
+            {
+                Product product = tag.Value;
+                if(!groceryListProducts.ContainsKey(product.EAN)){
+                    String[] values = { product.name, product.amountScanned + "x", "€" + product.price * product.amountScanned };
+                    ListViewItem item = new ListViewItem(values);
+                    productListView.Items.Add(item);
+                    total += product.price * product.amountScanned;
+                }
             }
             totaalPrijs.Text = "€" + total;
         }
 
         public void addTagMethod(String tag, String body)
         {
-            if (!tags.ContainsKey(tag))
+            if (!scannedTags.Contains(tag))
             {
                 Product product = API.getInstance().getProductWithId(Convert.ToInt32(body));
-                tags.Add(tag, product);
+                scannedTags.Add(tag);
+                if (scannedProducts.ContainsKey(product.EAN))
+                {
+                    scannedProducts[product.EAN].amountScanned++;
+                }
+                else
+                {
+                    product.amountScanned = 1;
+                    scannedProducts.Add(product.EAN, product);
+                }
                 updateList();
             }
         }
@@ -67,31 +92,40 @@ namespace FutureShopWinkelwagen
         {
             importNotification.InitialDuration = Int32.MaxValue;
             importNotification.Text = @"<form>
-                  <b>Uw code:</b> <input type=""text"" name=""code"" size=""15"" /><br />
-                  <input type=""submit"" style=""float: right;"" />
-                </form>";
+                                          <b>Uw code:</b> <input type=""text"" name=""code"" size=""15"" /><br />
+                                          <input type=""submit"" style=""float: right;"" />
+                                        </form>";
             importNotification.Visible = true;
         }
 
         private void clear_Click(object sender, EventArgs e)
         {
-            tags.Clear();
-            updateList();
+            clearListsAndUpdate();
         }
 
         private void importNotification_ResponseSubmitted(object sender, ResponseSubmittedEventArgs e)
         {
             importNotification.Visible = false;
-            GroceryList groceryList = API.getInstance().getGroceryListWithId(Convert.ToInt32(e.Response.Substring(6)));
-            tags.Clear();
-            productList.Items.Clear();
-            priceList.Items.Clear();
-            int i = 0;
-            foreach(DjangoProduct djangoProduct in groceryList.products){
-                Product product = djangoProduct.fields;
-                tags.Add("" + i, product);
-                i++;
+            DjangoGroceryList[] groceryList = API.getInstance().getGroceryListWithId(Convert.ToInt32(e.Response.Substring(6)));
+            groceryListProducts.Clear();
+            foreach (DjangoGroceryList djangoGroceryList in groceryList)
+            {
+                DjangoGroceryListProduct product = djangoGroceryList.fields;
+                groceryListProducts.Add(product.product.fields.EAN, product);
             }
+            updateList();
+        }
+
+        private void clearLists()
+        {
+            groceryListProducts.Clear();
+            scannedProducts.Clear();
+            scannedTags.Clear();
+        }
+
+        private void clearListsAndUpdate()
+        {
+            clearLists();
             updateList();
         }
     }
