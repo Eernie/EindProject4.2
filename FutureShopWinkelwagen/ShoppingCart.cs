@@ -92,8 +92,8 @@ namespace FutureShopWinkelwagen
         {
             importNotification.InitialDuration = Int32.MaxValue;
             importNotification.Text = @"<form>
-                                          <b>Uw code:</b> <input type=""text"" name=""code"" size=""15"" /><br />
-                                          <input type=""submit"" style=""float: right;"" />
+                                          <b>Your code:</b> <input type=""text"" name=""code"" size=""15"" /><br />
+                                          <input type=""submit"" style=""float: right;"" value=""Import"" />
                                         </form>";
             importNotification.Visible = true;
         }

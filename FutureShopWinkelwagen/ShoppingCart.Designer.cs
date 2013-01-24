@@ -68,11 +68,11 @@
             this.totaalText.Location = new System.Drawing.Point(119, 260);
             this.totaalText.Name = "totaalText";
             this.totaalText.Size = new System.Drawing.Size(46, 20);
-            this.totaalText.Text = "Totaal:";
+            this.totaalText.Text = "Total:";
             // 
             // importNotification
             // 
-            this.importNotification.Caption = "Importeer boodschappenlijst";
+            this.importNotification.Caption = "Import Grocery List";
             this.importNotification.Text = "";
             this.importNotification.ResponseSubmitted += new Microsoft.WindowsCE.Forms.ResponseSubmittedEventHandler(this.importNotification_ResponseSubmitted);
             // 
@@ -97,12 +97,12 @@
             // 
             // amount
             // 
-            this.amount.Text = "Aantal";
+            this.amount.Text = "Qty";
             this.amount.Width = 40;
             // 
             // productPrice
             // 
-            this.productPrice.Text = "Prijs";
+            this.productPrice.Text = "Price";
             this.productPrice.Width = 67;
             // 
             // ShoppingCart
