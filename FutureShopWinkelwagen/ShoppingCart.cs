@@ -66,7 +66,13 @@ namespace FutureShopWinkelwagen
                     total += product.price * product.amountScanned;
                 }
             }
-            totaalPrijs.Text = "€" + total;
+            if(total <= 0)
+            {
+                totaalPrijs.Text = "€0,00";
+            }
+            else{
+                totaalPrijs.Text = "€" + total;
+            }
         }
 
         public void addTagMethod(String tag, String body)
