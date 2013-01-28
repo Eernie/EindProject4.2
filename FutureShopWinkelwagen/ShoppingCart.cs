@@ -22,6 +22,7 @@ namespace FutureShopWinkelwagen
         public Dictionary<String, DjangoGroceryListProduct> groceryListProducts = new Dictionary<String, DjangoGroceryListProduct>();
         public Dictionary<String, Product> scannedProducts = new Dictionary<String, Product>();
         public List<String> scannedTags = new List<String>();
+        private int groceryListID;
 
         public ShoppingCart()
         {
@@ -112,18 +113,27 @@ namespace FutureShopWinkelwagen
         private void importNotification_ResponseSubmitted(object sender, ResponseSubmittedEventArgs e)
         {
             importNotification.Visible = false;
-            DjangoGroceryList[] groceryList = API.getInstance().getGroceryListWithId(Convert.ToInt32(e.Response.Substring(6)));
+            this.groceryListID = Convert.ToInt32(e.Response.Substring(6));
+            timerGroceryList.Enabled = true;
+            this.importGroceryList();
+        }
+
+        private void importGroceryList()
+        {
+            DjangoGroceryList[] groceryList = API.getInstance().getGroceryListWithId(this.groceryListID);
             groceryListProducts.Clear();
             foreach (DjangoGroceryList djangoGroceryList in groceryList)
             {
                 DjangoGroceryListProduct product = djangoGroceryList.fields;
                 groceryListProducts.Add(product.product.fields.EAN, product);
             }
+            
             updateList();
         }
 
         private void clearLists()
         {
+            timerGroceryList.Enabled = false;
             groceryListProducts.Clear();
             scannedProducts.Clear();
             scannedTags.Clear();
@@ -133,6 +143,11 @@ namespace FutureShopWinkelwagen
         {
             clearLists();
             updateList();
+        }
+
+        private void timerGroceryList_Tick(object sender, EventArgs e)
+        {
+            importGroceryList();
         }
     }
 }

@@ -48,17 +48,17 @@
     <Reference Include="C1Lib_net, Version=1.0.2179.22713, Culture=neutral" />
     <Reference Include="LinqBridge.CF20, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\LinqBridge.CF20.dll</HintPath>
+      <HintPath>DLL\LinqBridge.CF20.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\log4net.dll</HintPath>
+      <HintPath>DLL\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsCE.Forms" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json.Compact20, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\Newtonsoft.Json.Compact20.dll</HintPath>
+      <HintPath>DLL\Newtonsoft.Json.Compact20.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

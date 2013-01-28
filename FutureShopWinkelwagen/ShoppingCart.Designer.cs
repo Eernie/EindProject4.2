@@ -39,6 +39,7 @@
             this.productName = new System.Windows.Forms.ColumnHeader();
             this.amount = new System.Windows.Forms.ColumnHeader();
             this.productPrice = new System.Windows.Forms.ColumnHeader();
+            this.timerGroceryList = new System.Windows.Forms.Timer();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -105,6 +106,11 @@
             this.productPrice.Text = "Price";
             this.productPrice.Width = 67;
             // 
+            // timerGroceryList
+            // 
+            this.timerGroceryList.Interval = 5000;
+            this.timerGroceryList.Tick += new System.EventHandler(this.timerGroceryList_Tick);
+            // 
             // ShoppingCart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -134,6 +140,7 @@
         private System.Windows.Forms.ColumnHeader productName;
         private System.Windows.Forms.ColumnHeader productPrice;
         private System.Windows.Forms.ColumnHeader amount;
+        private System.Windows.Forms.Timer timerGroceryList;
 
     }
 }
